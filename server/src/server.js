@@ -11,6 +11,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
+    "https://realstate-sooty-eight.vercel.app",
     process.env.FRONTEND_URL,
   ].filter(Boolean),
   credentials: true,
