@@ -63,5 +63,3 @@ A full-stack real estate platform where users can browse, search, list, and mana
 - **Database** → [Neon](https://neon.tech)
 
 ---
-
-## 📁 Project Structure
