@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int              @id @default(autoincrement())
+  name       String
+  email      String           @unique
+  password   String
+  createdAt  DateTime         @default(now())
+  favorites  Favorite[]
+  properties Property[]
+  requests   ViewingRequest[]
+}
+
+model Property {
+  id          Int              @id @default(autoincrement())
+  title       String
+  location    String
+  type        String
+  purpose     String
+  price       Float
+  bedrooms    Int
+  bathrooms   Int
+  area        Float
+  image       String?
+  description String?
+  createdAt   DateTime         @default(now())
+  ownerId     Int
+  favorites   Favorite[]
+  owner       User             @relation(fields: [ownerId], references: [id])
+  requests    ViewingRequest[]
+}
+
+model Favorite {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  userId     Int
+  propertyId Int
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+}
+
+model ViewingRequest {
+  id         Int      @id @default(autoincrement())
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+  userId     Int
+  propertyId Int
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
